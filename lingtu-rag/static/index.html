@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>动画制作知识库 · RAG</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="page-glow glow-a"></div>
+  <div class="page-glow glow-b"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">A</span>
+      <span>
+        <strong>ANIME RAG</strong>
+        <small>アニメ制作知識庫</small>
+      </span>
+    </a>
+    <div class="system-state">
+      <span class="dot"></span>
+      <span id="healthText">正在连接知识库</span>
+    </div>
+  </header>
+
+  <main class="shell">
+    <aside class="sidebar">
+      <section class="intro-card">
+        <p class="eyebrow">VERTICAL KNOWLEDGE BASE</p>
+        <h1>日本动画制作流程<br><em>与岗位职责</em></h1>
+        <p class="intro-copy">基于《アニメ基礎知識大百科》第 1、3 章整理。回答会展示命中的知识条目、原书页码和日文原文线索。</p>
+      </section>
+
+      <section class="stat-card">
+        <div class="stat"><span id="docCount">--</span><small>知识片段</small></div>
+        <div class="stat"><span id="pageCount">--</span><small>原书页数覆盖</small></div>
+        <div class="stat accent"><span id="hitAt1">--</span><small>Recall@1</small></div>
+      </section>
+
+      <section class="scope-card">
+        <p class="eyebrow">KB SCOPE</p>
+        <h2>知识库能回答什么</h2>
+        <ul>
+          <li>制作流程与阶段划分</li>
+          <li>监督、演出、作画、摄影等岗位</li>
+          <li>分镜、布局、原画、动画等术语</li>
+          <li>碰头会、检查、返工与制作进行</li>
+        </ul>
+        <p class="scope-warning">不包含具体新番、公司薪资、制作委员会收益分配等站外信息；资料不足时会明确拒答。</p>
+      </section>
+
+      <section class="mode-card">
+        <div class="mode-row">
+          <span>回答模式</span>
+          <select id="mode">
+            <option value="auto">自动</option>
+            <option value="extractive">抽取式 RAG</option>
+            <option value="llm">LLM 生成</option>
+          </select>
+        </div>
+        <div class="mode-row">
+          <span>检索片段</span>
+          <select id="topK">
+            <option value="3">Top 3</option>
+            <option value="5" selected>Top 5</option>
+            <option value="8">Top 8</option>
+          </select>
+        </div>
+        <p id="modeHint" class="mode-hint">未配置 LLM 时自动使用可追溯的抽取式回答。</p>
+      </section>
+    </aside>
+
+    <section class="workspace">
+      <div class="chat-card">
+        <div class="chat-head">
+          <div>
+            <p class="eyebrow">GROUNDED QA</p>
+            <h2>问一个动画制作问题</h2>
+          </div>
+          <span class="mini-badge">BM25 · 中日文 n-gram</span>
+        </div>
+
+        <div id="examples" class="examples">
+          <button type="button">制作进行为什么被称为现场枢纽？</button>
+          <button type="button">布局和原画有什么区别？</button>
+          <button type="button">作画工程有哪三个检查点？</button>
+          <button type="button">摄影是拿摄像机拍吗？</button>
+        </div>
+
+        <div id="conversation" class="conversation">
+          <article class="message assistant welcome">
+            <div class="message-label">ANIME RAG</div>
+            <div class="message-body">
+              <p>你好。我会先检索知识库，再基于命中的片段回答，并附上原书页码。你可以直接问术语区别、岗位职责或制作流程。</p>
+            </div>
+          </article>
+        </div>
+
+        <form id="queryForm" class="composer">
+          <textarea id="question" rows="2" maxlength="500" placeholder="例如：分镜打ち合わせ和演出打ち合わせ区别是什么？"></textarea>
+          <button id="sendButton" type="submit" aria-label="发送问题">
+            <span>检索并回答</span><span>→</span>
+          </button>
+        </form>
+      </div>
+
+      <section id="sourcePanel" class="source-panel hidden">
+        <div class="source-heading">
+          <div>
+            <p class="eyebrow">RETRIEVED CONTEXT</p>
+            <h2>本轮引用来源</h2>
+          </div>
+          <span id="retrievalMeta"></span>
+        </div>
+        <div id="sourceList" class="source-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

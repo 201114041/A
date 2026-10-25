@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: anime-production-rag
+    runtime: python
+    plan: free
+    buildCommand: "python -m pip install -r requirements.txt"
+    startCommand: "python -m rag_app.server --host 0.0.0.0 --port $PORT"
