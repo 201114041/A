@@ -217,9 +217,9 @@ python -B scripts/evaluate_llm.py --limit 10
 ### 当前评测状态
 
 - 检索评测已经真实执行：Recall@1 为 96.7%，Recall@3/5 为 100%。
-- DeepSeek `deepseek-flash` 已接入，并完成 q01～q10 的普通 LLM 与 RAG 对照生成。
-- `answer_review_results.csv` 当前只有 10 行，均为可回答题；无答案题 q31～q35 尚未包含在已跑对照中。
-- 在 10 道题的人工评分中，普通 LLM 的平均得分为1.8/5，RAG 的平均得分为4.6/5，绝对提升2.8分，相对提升约为 156%。
+- DeepSeek `deepseek-flash` 已接入，并完成 q01～q35 的普通 LLM 与 RAG 对照生成。
+- `answer_review_results.csv` 中q01~q30均为可回答题；无答案题为q31～q35 。
+- 在 35 道题的人工评分中，普通 LLM 的平均得分为2.43/5，RAG 的平均得分为4.73/5，绝对提升2.30分，相对提升约为 94.65%。
 
 ## 加分与失败案例分析
 
@@ -277,7 +277,7 @@ lingtu-rag/
 - 使用的 AI coding 工具： Codex
 - token 消耗：41,932,584
 - token 消耗最多的部分：知识片段整理、检索器实现、前端页面、评测集
-- 未使用 LLM、由个人完成且耗时最多的部分：检查AI给出的结果，评价LLM和RAG的优劣，写README
+- 未使用 LLM、由个人完成且耗时最多的部分：检查AI给出的结果，人工评分，写README
 
 ## 部署
 
